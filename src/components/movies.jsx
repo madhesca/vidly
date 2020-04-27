@@ -6,6 +6,7 @@ import ListGroup from "../common/listGroup";
 import { getGenres } from "../services/fakeGenreService";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
+import NavBar from "./navBar";
 
 class Movies extends Component {
   state = {
@@ -78,35 +79,37 @@ class Movies extends Component {
     const { totalCount, data: movies } = this.getPagedData();
 
     return (
-      <div className="row">
-        <div className="col-3">
-          <ListGroup
-            selectedGenre={this.state.selectedGenre}
-            items={this.state.genres}
-            onItemSelect={this.handleGenreSelect}
-          />
-        </div>
-        <div className="col">
-          {totalCount === 0 ? (
-            <h2>There are NO Movies</h2>
-          ) : (
-            <h2>There are {totalCount} movies</h2>
-          )}
+      <div>
+        <div className="row">
+          <div className="col-3">
+            <ListGroup
+              selectedGenre={this.state.selectedGenre}
+              items={this.state.genres}
+              onItemSelect={this.handleGenreSelect}
+            />
+          </div>
+          <div className="col">
+            {totalCount === 0 ? (
+              <h2>There are NO Movies</h2>
+            ) : (
+              <h2>There are {totalCount} movies</h2>
+            )}
 
-          <MoviesTable
-            movies={movies}
-            sortColumn={sortColumn}
-            onSort={this.sortHandler}
-            onDelete={this.deleteHandler}
-            onLike={this.likeHandler}
-          />
+            <MoviesTable
+              movies={movies}
+              sortColumn={sortColumn}
+              onSort={this.sortHandler}
+              onDelete={this.deleteHandler}
+              onLike={this.likeHandler}
+            />
 
-          <Pagination
-            itemsCount={totalCount}
-            pageSize={pageSize}
-            onPageChange={this.handlePageChange}
-            currentPage={currentPage}
-          />
+            <Pagination
+              itemsCount={totalCount}
+              pageSize={pageSize}
+              onPageChange={this.handlePageChange}
+              currentPage={currentPage}
+            />
+          </div>
         </div>
       </div>
     );
