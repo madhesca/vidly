@@ -88,7 +88,9 @@ class Movies extends Component {
               onItemSelect={this.handleGenreSelect}
             />
           </div>
+
           <div className="col">
+            <button className="btn btn-primary ">New Movie</button>
             {totalCount === 0 ? (
               <h2>There are NO Movies</h2>
             ) : (

@@ -165,6 +165,27 @@ done
  //reverse
  //in handleSrot, 
 done
-//in components, create loginForm
-//class com
+//prevent default the form, console save and test
+done
 
+//create ref for username reference
+//focus input field during mounting
+done
+
+//set the value of username from the state
+//handle the change event
+done
+//set also for password
+//add name prop
+//de structure curremtTarget and rename as input
+save and test in react dev tools
+done
+
+//common, input.jsx
+//func
+done
+
+//loginfom define a schema
+//in validate func add var name result of joi schema
+//set abortealy to false
+done
