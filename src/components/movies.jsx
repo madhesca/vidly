@@ -6,7 +6,7 @@ import ListGroup from "../common/listGroup";
 import { getGenres } from "../services/fakeGenreService";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
-import NavBar from "./navBar";
+import { Link } from "react-router-dom";
 
 class Movies extends Component {
   state = {
@@ -90,7 +90,10 @@ class Movies extends Component {
           </div>
 
           <div className="col">
-            <button className="btn btn-primary ">New Movie</button>
+            <Link to="/movies/new">
+              <button className="btn btn-primary ">New Movie</button>
+            </Link>
+
             {totalCount === 0 ? (
               <h2>There are NO Movies</h2>
             ) : (
