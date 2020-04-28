@@ -7,6 +7,7 @@ import { getGenres } from "../services/fakeGenreService";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+import SearchBox from "../common/searchBox";
 
 class Movies extends Component {
   state = {
@@ -14,6 +15,8 @@ class Movies extends Component {
     genres: [],
     pageSize: 4,
     currentPage: 1,
+    searchQuery: "",
+    selectedGenre: null,
     sortColumn: {
       path: "title",
       order: "asc",
@@ -42,8 +45,13 @@ class Movies extends Component {
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
   };
-  handleGenreSelect = (item) => {
-    this.setState({ selectedGenre: item, currentPage: 1 });
+
+  handleGenreSelect = (genre) => {
+    this.setState({ selectedGenre: genre, searchQuery: "", currentPage: 1 });
+  };
+
+  handleSearch = (query) => {
+    this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
   };
 
   sortHandler = (sortColumn) => {
@@ -57,14 +65,18 @@ class Movies extends Component {
       movies: allMovies,
       pageSize,
       currentPage,
+      searchQuery,
       selectedGenre,
       sortColumn,
     } = this.state;
 
-    const filtered =
-      selectedGenre && selectedGenre._id
-        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-        : allMovies;
+    let filtered = allMovies;
+    if (searchQuery)
+      filtered = allMovies.filter((m) =>
+        m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    else if (selectedGenre && selectedGenre._id)
+      filtered = allMovies.filter((m) => m.genre._id === selectedGenre._id);
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
@@ -74,7 +86,7 @@ class Movies extends Component {
   };
 
   render() {
-    const { pageSize, currentPage, sortColumn } = this.state;
+    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
 
     const { totalCount, data: movies } = this.getPagedData();
 
@@ -90,8 +102,12 @@ class Movies extends Component {
           </div>
 
           <div className="col">
-            <Link to="/movies/new">
-              <button className="btn btn-primary ">New Movie</button>
+            <Link
+              to="/movies/new"
+              className="btn btn-primary"
+              style={{ marginBottom: 20 }}
+            >
+              New Movie
             </Link>
 
             {totalCount === 0 ? (
@@ -99,7 +115,7 @@ class Movies extends Component {
             ) : (
               <h2>There are {totalCount} movies</h2>
             )}
-
+            <SearchBox value={searchQuery} onChange={this.handleSearch} />
             <MoviesTable
               movies={movies}
               sortColumn={sortColumn}
